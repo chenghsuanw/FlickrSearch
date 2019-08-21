@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     public List<Photo> photos;
+    private CircularProgressDrawable circularProgressDrawable;
 
     public PhotoAdapter(List<Photo> photos) {
         this.photos = photos;
@@ -25,6 +27,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+        circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
         View view = LayoutInflater.from(context).inflate(R.layout.row_photo, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -37,6 +42,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                 .load(Uri.parse(photo.getURL()))
                 .centerCrop()
                 .fitCenter()
+                .placeholder(circularProgressDrawable)
                 .into(holder.imageView);
     }
 
