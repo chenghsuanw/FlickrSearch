@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +53,19 @@ public class GridFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_grid, container, false);
         recyclerView = view.findViewById(R.id.recycler);
-        adapter = new PhotoAdapter(photos);
+
+        final InfoFragment infoFragment = new InfoFragment();
+        PhotoAdapter.EventListener listener = new PhotoAdapter.EventListener() {
+            @Override
+            public void onClickPhoto(Photo photo) {
+                FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                trans.remove(GridFragment.this);
+                trans.add(infoFragment, "");
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        };
+        adapter = new PhotoAdapter(photos, listener);
         recyclerView.setAdapter(adapter);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
