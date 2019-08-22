@@ -1,6 +1,8 @@
 package com.example.flickrsearch;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,7 +32,6 @@ public class GridFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private PhotoAdapter adapter;
-    private List<Photo> photos = new ArrayList<Photo>();
 
     public GridFragment() {
         // Required empty public constructor
@@ -54,18 +55,15 @@ public class GridFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_grid, container, false);
         recyclerView = view.findViewById(R.id.recycler);
 
-        final InfoFragment infoFragment = new InfoFragment();
-        PhotoAdapter.EventListener listener = new PhotoAdapter.EventListener() {
+        PhotoEventListener listener = new PhotoEventListener() {
             @Override
-            public void onClickPhoto(Photo photo) {
-                FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
-                trans.remove(GridFragment.this);
-                trans.add(infoFragment, "");
-                trans.addToBackStack(null);
-                trans.commit();
+            public void onClick(Photo photo) {
+                Intent intent = new Intent(getActivity(), InfoActivity.class);
+                intent.putExtra("photo", photo);
+                startActivity(intent);
             }
         };
-        adapter = new PhotoAdapter(photos, listener);
+        adapter = new PhotoAdapter(listener);
         recyclerView.setAdapter(adapter);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -90,7 +88,6 @@ public class GridFragment extends Fragment {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
                 adapter.photos = response.body().getPhotos().getPhoto();
-                Log.d("Photos", String.valueOf(photos.size()));
                 adapter.notifyDataSetChanged();
             }
 
@@ -103,12 +100,11 @@ public class GridFragment extends Fragment {
 
     public void search(final String keyword) {
         FlickrAPI flickrAPI = RetrofitManager.getInstance().getAPI();
-        Call<Data> call = flickrAPI.search(GETRECENT, APIKEY, keyword, "json", "1");
+        Call<Data> call = flickrAPI.search(SEARCH, APIKEY, keyword, "json", "1");
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
                 Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
-                Log.d("Keyword", keyword);
                 adapter.photos = response.body().getPhotos().getPhoto();
                 adapter.notifyDataSetChanged();
             }

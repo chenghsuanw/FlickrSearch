@@ -1,6 +1,7 @@
 package com.example.flickrsearch;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,20 +15,16 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
-    public List<Photo> photos;
-    public EventListener listener;
+    public List<Photo> photos = new ArrayList<Photo>();
+    public PhotoEventListener listener;
     public CircularProgressDrawable circularProgressDrawable;
 
-    public PhotoAdapter(List<Photo> photos, EventListener listener) {
-        this.photos = photos;
+    public PhotoAdapter(PhotoEventListener listener) {
         this.listener = listener;
-    }
-
-    public interface EventListener {
-        void onClickPhoto(Photo photo);
     }
 
     @NonNull
@@ -43,13 +40,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onClickPhoto(photo);
-                Log.d("click", String.valueOf(position));
+                listener.onClick(photo);
             }
         });
         Glide.with(holder.imageView.getContext())

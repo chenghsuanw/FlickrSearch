@@ -1,6 +1,8 @@
 package com.example.flickrsearch;
 
-public class Photo {
+import java.io.Serializable;
+
+public class Photo implements Serializable {
     private String id;
     private String owner;
     private String secret;

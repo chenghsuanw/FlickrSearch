@@ -72,10 +72,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void changeFragment(Fragment fragment) {
-        FragmentTransaction trans = fragmentManager.beginTransaction();
-        trans.replace(R.id.fragment_container, fragment);
-        trans.commit();
-    }
 }
