@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
-    public List<Photo> photos = new ArrayList<Photo>();
+    private List<Photo> photos = new ArrayList<Photo>();
     public PhotoEventListener listener;
     public CircularProgressDrawable circularProgressDrawable;
 
@@ -69,5 +69,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             super(itemView);
             imageView = itemView.findViewById(R.id.img);
         }
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+        notifyDataSetChanged();
     }
 }

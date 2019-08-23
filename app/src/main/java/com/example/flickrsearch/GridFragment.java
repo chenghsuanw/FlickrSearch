@@ -87,8 +87,7 @@ public class GridFragment extends Fragment {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
                 Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
-                adapter.photos = response.body().getPhotos().getPhoto();
-                adapter.notifyDataSetChanged();
+                adapter.setPhotos(response.body().getPhotos().getPhoto());
             }
 
             @Override
@@ -105,8 +104,7 @@ public class GridFragment extends Fragment {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
                 Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
-                adapter.photos = response.body().getPhotos().getPhoto();
-                adapter.notifyDataSetChanged();
+                adapter.setPhotos(response.body().getPhotos().getPhoto());
             }
 
             @Override
