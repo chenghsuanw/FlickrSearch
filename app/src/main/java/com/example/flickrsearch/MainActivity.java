@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String keyword = ed_search.getText().toString();
-                if (!keyword.isEmpty()) {
+                if (!keyword.replaceAll(" ", "").isEmpty()) {
                     gridFragment.search(keyword);
                 } else {
                     Log.d("Keyword", "empty");
