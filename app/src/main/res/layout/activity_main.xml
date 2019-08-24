@@ -12,28 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/ed_search"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="search"/>
-        </LinearLayout>
-
-        <Switch
+        <Button
             android:id="@+id/switcher"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOn="GridView"
-            android:textOff="ListView"/>
+            android:text="List"
+            android:layout_gravity="right"/>
 
     </LinearLayout>
 

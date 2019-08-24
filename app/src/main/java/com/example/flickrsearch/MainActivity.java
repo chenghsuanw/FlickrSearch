@@ -1,11 +1,14 @@
 package com.example.flickrsearch;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +30,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Switch switcher;
+    private Button switcher;
     private FragmentManager fragmentManager;
     private GridFragment gridFragment;
     private Button btn_search;
@@ -37,8 +40,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn_search = findViewById(R.id.btn_search);
-        ed_search = findViewById(R.id.ed_search);
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
+        View view = getSupportActionBar().getCustomView();
+        btn_search = view.findViewById(R.id.btn_search);
+        ed_search = view.findViewById(R.id.ed_search);
         switcher = findViewById(R.id.switcher);
 
         gridFragment = GridFragment.newInstance();
@@ -59,17 +66,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switcher.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    Log.d("Switch", "List");
+            public void onClick(View view) {
+                if (switcher.getText() == "List") {
                     gridFragment.setSpanCount(1);
+                    switcher.setText("Grid");
                 } else {
-                    Log.d("Switch", "Grid");
                     gridFragment.setSpanCount(2);
+                    switcher.setText("List");
                 }
             }
         });
+
     }
 }

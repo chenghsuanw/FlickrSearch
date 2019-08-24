@@ -16,6 +16,12 @@ public class PhotoInfo {
         private Description description;
         private Owner owner;
 
+        public Info(Title title, Description description, Owner owner) {
+            this.title = title;
+            this.description = description;
+            this.owner = owner;
+        }
+
         public Title getTitle() {
             return title;
         }
