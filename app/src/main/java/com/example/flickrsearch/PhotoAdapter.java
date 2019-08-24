@@ -52,6 +52,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                 .load(Uri.parse(photo.getURL()))
                 .centerCrop()
                 .fitCenter()
+                .override(250, 250)
                 .placeholder(circularProgressDrawable)
                 .into(holder.imageView);
     }
