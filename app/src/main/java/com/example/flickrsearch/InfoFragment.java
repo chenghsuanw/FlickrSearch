@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,10 +21,9 @@ import retrofit2.Response;
 
 
 public class InfoFragment extends Fragment {
-    final String APIKEY = "949e98778755d1982f537d56236bbb42";
-    final String GETINFO = "flickr.photos.getInfo";
+    private static final String API_KEY = "949e98778755d1982f537d56236bbb42";
+    private static final String GET_INFO = "flickr.photos.getInfo";
 
-    private PhotoInfo.Info info;
     private Photo photo;
     private ImageView imageView;
     private TextView tv_title;
@@ -60,28 +58,28 @@ public class InfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         findView(view);
 
-//        FlickrAPI flickrAPI = RetrofitManager.getInstance().getAPI();
-//        Call<PhotoInfo> call = flickrAPI.getInfo(GETINFO, APIKEY, photo.getId(), "json", "1");
-//        call.enqueue(new Callback<PhotoInfo>() {
-//            @Override
-//            public void onResponse(Call<PhotoInfo> call, Response<PhotoInfo> response) {
-//                PhotoInfo.Info info = response.body().getInfo();
-//                tv_title.setText(info.getTitle().get_content());
-//                tv_description.setText(info.getDescription().get_content());
-//                tv_userName.setText(info.getOwner().getUsername());
-//                tv_realName.setText(info.getOwner().getRealname());
-//                Log.d("Info Title", info.getTitle().get_content());
-//                Log.d("Info Description", info.getDescription().get_content());
-//                Log.d("Info Username", info.getOwner().getUsername());
-//                Log.d("Info Realname", info.getOwner().getRealname());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<PhotoInfo> call, Throwable t) {
-//                Log.d("Info", "Fail");
-//            }
-//        });
+        FlickrAPI flickrAPI = RetrofitManager.getInstance().getAPI();
+        Call<PhotoInfo> call = flickrAPI.getInfo(GET_INFO, API_KEY, photo.getId(), "json", "1");
+        call.enqueue(new Callback<PhotoInfo>() {
+            @Override
+            public void onResponse(Call<PhotoInfo> call, Response<PhotoInfo> response) {
+                PhotoInfo.Info info = response.body().getInfo();
+                tv_title.setText(info.getTitle().get_content());
+                tv_description.setText(info.getDescription().get_content());
+                tv_userName.setText(info.getOwner().getUsername());
+                tv_realName.setText(info.getOwner().getRealname());
+                Log.d("Info Title", info.getTitle().get_content());
+                Log.d("Info Description", info.getDescription().get_content());
+                Log.d("Info Username", info.getOwner().getUsername());
+                Log.d("Info Realname", info.getOwner().getRealname());
+
+            }
+
+            @Override
+            public void onFailure(Call<PhotoInfo> call, Throwable t) {
+                Log.d("Info", "Fail");
+            }
+        });
         Glide.with(imageView.getContext())
                 .load(Uri.parse(photo.getURL()))
                 .centerCrop()
@@ -106,14 +104,5 @@ public class InfoFragment extends Fragment {
         tv_userName = view.findViewById(R.id.info_username);
         tv_realName = view.findViewById(R.id.info_realname);
         imageView = view.findViewById(R.id.info_img);
-    }
-
-    public void setInfo(PhotoInfo.Info info) {
-        Log.d("Info", "setInfo");
-        this.info = info;
-        tv_title.setText(info.getTitle().get_content());
-        tv_description.setText(info.getDescription().get_content());
-        tv_userName.setText(info.getOwner().getUsername());
-        tv_realName.setText(info.getOwner().getRealname());
     }
 }

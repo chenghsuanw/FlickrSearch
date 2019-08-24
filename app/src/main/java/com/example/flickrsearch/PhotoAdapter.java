@@ -1,9 +1,7 @@
 package com.example.flickrsearch;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,8 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<Photo> photos = new ArrayList<Photo>();
-    public PhotoEventListener listener;
-    public CircularProgressDrawable circularProgressDrawable;
+    private PhotoEventListener listener;
+    private CircularProgressDrawable circularProgressDrawable;
 
     public PhotoAdapter(PhotoEventListener listener) {
         this.listener = listener;
