@@ -2,12 +2,9 @@ package com.example.flickrsearch;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,9 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,9 +20,9 @@ import retrofit2.Response;
 
 public class GridFragment extends Fragment {
 
-    final String APIKEY = "949e98778755d1982f537d56236bbb42";
-    final String GETRECENT = "flickr.photos.getRecent";
-    final String SEARCH = "flickr.photos.search";
+    private static final String API_KEY = "949e98778755d1982f537d56236bbb42";
+    private static final String GET_RECENT = "flickr.photos.getRecent";
+    private static final String SEARCH = "flickr.photos.search";
 
     private RecyclerView recyclerView;
     private PhotoAdapter adapter;
@@ -45,7 +39,6 @@ public class GridFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getRecent();
     }
 
     @Override
@@ -67,6 +60,7 @@ public class GridFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
+        getRecent();
         return view;
     }
 
@@ -82,7 +76,7 @@ public class GridFragment extends Fragment {
 
     public void getRecent() {
         FlickrAPI flickrAPI = RetrofitManager.getInstance().getAPI();
-        Call<Data> call = flickrAPI.getRecent(GETRECENT, APIKEY, "json", "1");
+        Call<Data> call = flickrAPI.getRecent(GET_RECENT, API_KEY, "json", "1");
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
@@ -99,7 +93,7 @@ public class GridFragment extends Fragment {
 
     public void search(final String keyword) {
         FlickrAPI flickrAPI = RetrofitManager.getInstance().getAPI();
-        Call<Data> call = flickrAPI.search(SEARCH, APIKEY, keyword, "json", "1");
+        Call<Data> call = flickrAPI.search(SEARCH, API_KEY, keyword, "json", "1");
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
@@ -114,9 +108,10 @@ public class GridFragment extends Fragment {
         });
     }
 
-    public void setSpanCount(Integer count) {
+    public void setSpanCount(int count) {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), count);
-        recyclerView.setLayoutManager(layoutManager);
+        ((GridLayoutManager)recyclerView.getLayoutManager()).setSpanCount(count);
+        adapter.notifyDataSetChanged();
     }
 
 }
