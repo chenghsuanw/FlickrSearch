@@ -8,7 +8,8 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:background="@drawable/editbox"/>
+        android:background="@drawable/editbox"
+        android:padding="5dp"/>
 
     <Button
         android:id="@+id/btn_search"
