@@ -1,6 +1,5 @@
 package com.example.flickrsearch;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -69,6 +68,7 @@ public class InfoFragment extends Fragment {
                 tvDescription.setText(info.getDescription().get_content());
                 tvUserName.setText(info.getOwner().getUserName());
                 tvRealName.setText(info.getOwner().getRealName());
+                Log.d(TAG, photo.getURL());
                 Log.d(TAG, "Title:"+info.getTitle().get_content());
                 Log.d(TAG, "Description:"+info.getDescription().get_content());
                 Log.d(TAG, "User name:"+info.getOwner().getUserName());
