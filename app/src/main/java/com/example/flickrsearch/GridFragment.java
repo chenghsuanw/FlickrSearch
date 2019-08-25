@@ -1,5 +1,6 @@
 package com.example.flickrsearch;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,6 +23,7 @@ import retrofit2.Response;
 
 public class GridFragment extends Fragment {
 
+    private static final String TAG = "GridFragment";
     private static final String API_KEY = "949e98778755d1982f537d56236bbb42";
     private static final String GET_RECENT = "flickr.photos.getRecent";
     private static final String SEARCH = "flickr.photos.search";
@@ -80,13 +84,13 @@ public class GridFragment extends Fragment {
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
-                Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
-                adapter.setPhotos(response.body().getPhotos().getPhoto());
+                List<Photo> photoList = response.body().getPhotos().getPhoto();
+                adapter.setPhotos(photoList);
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
-                Log.d("Call", "Fail");
+                Log.d(TAG, "Fail");
             }
         });
     }
@@ -97,19 +101,27 @@ public class GridFragment extends Fragment {
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
-                Log.d("Call", response.body().getPhotos().getPhoto().get(0).getURL());
-                adapter.setPhotos(response.body().getPhotos().getPhoto());
+                List<Photo> photoList = response.body().getPhotos().getPhoto();
+                adapter.setPhotos(photoList);
+                if (photoList.size() > 0) {
+                    Log.d(TAG, photoList.get(0).getURL());
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setMessage("Please change the keyword.")
+                            .setTitle("There is no related photo.")
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
-                Log.d("Call", "Fail");
+                Log.d(TAG, "Fail");
             }
         });
     }
 
     public void setSpanCount(int count) {
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), count);
         ((GridLayoutManager)recyclerView.getLayoutManager()).setSpanCount(count);
         adapter.notifyDataSetChanged();
     }

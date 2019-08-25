@@ -57,20 +57,20 @@ public class PhotoInfo {
             }
         }
         public class Owner {
-            private String username;
-            private String realname;
+            private String userName;
+            private String realName;
 
-            public Owner(String username, String realname) {
-                this.username = username;
-                this.realname = realname;
+            public Owner(String userName, String realName) {
+                this.userName = userName;
+                this.realName = realName;
             }
 
-            public String getUsername() {
-                return username;
+            public String getUserName() {
+                return userName;
             }
 
-            public String getRealname() {
-                return realname;
+            public String getRealName() {
+                return realName;
             }
         }
     }

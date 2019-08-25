@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class InfoActivity extends AppCompatActivity {
-    private FragmentManager fragmentManager;
-    private InfoFragment infoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +15,8 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         Intent intent = getIntent();
         Photo photo = (Photo) intent.getSerializableExtra("photo");
-        fragmentManager = getSupportFragmentManager();
-        infoFragment = InfoFragment.newInstance(photo);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        InfoFragment infoFragment = InfoFragment.newInstance(photo);
 
         FragmentTransaction trans = fragmentManager.beginTransaction();
         trans.add(R.id.info_frag_container, infoFragment);

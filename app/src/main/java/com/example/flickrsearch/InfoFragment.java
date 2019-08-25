@@ -21,15 +21,16 @@ import retrofit2.Response;
 
 
 public class InfoFragment extends Fragment {
+    private static final String TAG = "InfoFragment";
     private static final String API_KEY = "949e98778755d1982f537d56236bbb42";
     private static final String GET_INFO = "flickr.photos.getInfo";
 
     private Photo photo;
     private ImageView imageView;
-    private TextView tv_title;
-    private TextView tv_description;
-    private TextView tv_userName;
-    private TextView tv_realName;
+    private TextView tvTitle;
+    private TextView tvDescription;
+    private TextView tvUserName;
+    private TextView tvRealName;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -64,45 +65,36 @@ public class InfoFragment extends Fragment {
             @Override
             public void onResponse(Call<PhotoInfo> call, Response<PhotoInfo> response) {
                 PhotoInfo.Info info = response.body().getInfo();
-                tv_title.setText(info.getTitle().get_content());
-                tv_description.setText(info.getDescription().get_content());
-                tv_userName.setText(info.getOwner().getUsername());
-                tv_realName.setText(info.getOwner().getRealname());
-                Log.d("Info Title", info.getTitle().get_content());
-                Log.d("Info Description", info.getDescription().get_content());
-                Log.d("Info Username", info.getOwner().getUsername());
-                Log.d("Info Realname", info.getOwner().getRealname());
+                tvTitle.setText(info.getTitle().get_content());
+                tvDescription.setText(info.getDescription().get_content());
+                tvUserName.setText(info.getOwner().getUserName());
+                tvRealName.setText(info.getOwner().getRealName());
+                Log.d(TAG, "Title:"+info.getTitle().get_content());
+                Log.d(TAG, "Description:"+info.getDescription().get_content());
+                Log.d(TAG, "User name:"+info.getOwner().getUserName());
+                Log.d(TAG, "Real name:"+info.getOwner().getRealName());
 
             }
 
             @Override
             public void onFailure(Call<PhotoInfo> call, Throwable t) {
-                Log.d("Info", "Fail");
+                Log.d(TAG, "Fail");
             }
         });
         Glide.with(imageView.getContext())
                 .load(Uri.parse(photo.getURL()))
                 .centerCrop()
                 .fitCenter()
+                .override(400, 400)
                 .into(imageView);
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     public void findView(View view) {
-        tv_title = view.findViewById(R.id.info_title);
-        tv_description = view.findViewById(R.id.info_description);
-        tv_userName = view.findViewById(R.id.info_username);
-        tv_realName = view.findViewById(R.id.info_realname);
+        tvTitle = view.findViewById(R.id.info_title);
+        tvDescription = view.findViewById(R.id.info_description);
+        tvUserName = view.findViewById(R.id.info_username);
+        tvRealName = view.findViewById(R.id.info_realname);
         imageView = view.findViewById(R.id.info_img);
     }
 }

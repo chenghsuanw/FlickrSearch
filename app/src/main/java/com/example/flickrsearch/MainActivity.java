@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!keyword.replaceAll(" ", "").isEmpty()) {
                     gridFragment.search(keyword);
                 } else {
-                    Log.d("Keyword", "empty");
+                    gridFragment.getRecent();
                 }
             }
         });
